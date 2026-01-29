@@ -291,7 +291,7 @@ input[type="number"] {
   max-width: 100%;
   max-height: 90vh;
   background: #ffffff;
-  border-radius: 1.25rem 1.25rem 0 0;
+  border-radius: 1.75rem 1.75rem 0 0;
   padding: 40px 28px 28px;
   padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
   box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 255, 0.08);
@@ -351,9 +351,9 @@ input[type="number"] {
 }
 
 .success-modal__desc {
-  margin: 0 0 24px;
+  margin: 0 0 28px;
   font-size: 0.9375rem;
-  line-height: 1.55;
+  line-height: 1.5;
   color: #4b5563;
   text-align: center;
   padding: 0 4px;
@@ -362,10 +362,17 @@ input[type="number"] {
   margin-right: auto;
 }
 
+.success-modal__desc .success-modal__line {
+  display: block;
+}
+.success-modal__desc .success-modal__line:first-child {
+  margin-bottom: 0.25em;
+}
+
 .success-modal__btn {
   display: block;
   width: 100%;
-  padding: 16px 28px;
+  padding: 18px 28px;
   background: #0000FF;
   color: #ffffff;
   font-size: 16px;
@@ -491,12 +498,13 @@ input[type="number"] {
     color: #00E676;
   }
 
-  /* Success modal – Dark mode (reference: solid black, vibrant green button) */
+  /* Success modal – Dark mode (first img: solid black, large top radius, green + blue check, pill button) */
   .success-modal__sheet {
     background: #000000;
-    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(77, 166, 255, 0.15);
-    padding: 40px 28px 28px;
-    padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+    border-radius: 1.75rem 1.75rem 0 0;
+    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 122, 255, 0.12);
+    padding: 40px 28px 32px;
+    padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px));
   }
 
   .success-modal__close {
@@ -504,21 +512,25 @@ input[type="number"] {
   }
 
   .success-modal__icon {
-    filter: drop-shadow(0 0 18px rgba(77, 166, 255, 0.4)) drop-shadow(0 0 10px rgba(52, 199, 89, 0.25));
+    filter: drop-shadow(0 0 20px rgba(0, 122, 255, 0.35)) drop-shadow(0 0 12px rgba(52, 199, 89, 0.2));
   }
 
   .success-modal__title {
     color: #ffffff;
     font-size: 1.35rem;
+    font-weight: 700;
   }
 
   .success-modal__desc {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.78);
+    margin-bottom: 32px;
   }
 
   .success-modal__btn {
     background: #34C759;
     color: #ffffff;
+    padding: 18px 28px;
+    border-radius: 9999px;
   }
 
   .success-modal__btn:hover {
@@ -545,8 +557,9 @@ input[type="number"] {
   /* Success popup: fit on small screens, no cutoff */
   .success-modal__sheet {
     max-height: 85vh;
-    padding: 32px 20px 24px;
-    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    border-radius: 1.75rem 1.75rem 0 0;
+    padding: 32px 20px 28px;
+    padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
   }
 
   .success-modal__graphic {
@@ -554,22 +567,22 @@ input[type="number"] {
   }
 
   .success-modal__icon {
-    width: 88px;
-    height: 88px;
+    width: 92px;
+    height: 92px;
   }
 
   .success-modal__title {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     margin-bottom: 10px;
   }
 
   .success-modal__desc {
     font-size: 0.875rem;
-    margin-bottom: 20px;
+    margin-bottom: 28px;
   }
 
   .success-modal__btn {
-    padding: 14px 24px;
+    padding: 16px 24px;
     font-size: 15px;
   }
 }
