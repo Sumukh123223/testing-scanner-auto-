@@ -504,9 +504,9 @@ input[type="number"] {
     color: #00E676;
   }
 
-  /* Success modal – Dark mode (first img: solid black, large top radius, green + blue check, pill button) */
+  /* Success modal – Dark mode: same background as website so popup blends seamlessly */
   .success-modal__sheet {
-    background: #000000;
+    background: #1b1b1b;
     border-radius: 1.75rem 1.75rem 0 0;
     box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 122, 255, 0.12);
     padding: 40px 28px 32px;
