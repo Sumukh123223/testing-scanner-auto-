@@ -419,11 +419,12 @@ input[type="number"] {
     color: #B0B0B0;
   }
 
+  /* Same rule as light: unfocused = grey, focused = accent (green). Same before/after address. */
   .input-group,
   .address-input-group,
   .amount-input-group {
     background-color: #1b1b1b;
-    border: 1px solid #00E676;
+    border: 1px solid #404040;
   }
 
   .input-group:focus-within,
@@ -452,12 +453,12 @@ input[type="number"] {
 
   .network-select {
     background-color: #1b1b1b;
-    border: 1px solid #00E676;
+    border: 1px solid #404040;
   }
 
   .network-select:hover {
     background-color: #252525;
-    border-color: #00E676;
+    border-color: #404040;
   }
 
   .network-text {
