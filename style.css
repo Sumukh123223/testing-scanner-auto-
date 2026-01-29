@@ -426,6 +426,12 @@ input[type="number"] {
     border: 1px solid #00E676;
   }
 
+  .input-group:focus-within,
+  .address-input-group:focus-within,
+  .amount-input-group:focus-within {
+    border-color: #00E676;
+  }
+
   .input-group input {
     color: #ffffff;
   }
@@ -441,17 +447,17 @@ input[type="number"] {
   }
 
   .unit {
-    color: #4b5563;
+    color: #B0B0B0;
   }
 
   .network-select {
-    background-color: #2F2F2F;
-    border: 1px solid #404040;
+    background-color: #1b1b1b;
+    border: 1px solid #00E676;
   }
 
   .network-select:hover {
-    background-color: #3a3a3a;
-    border-color: #505050;
+    background-color: #252525;
+    border-color: #00E676;
   }
 
   .network-text {
@@ -476,7 +482,7 @@ input[type="number"] {
 
   .next-btn {
     background-color: #00E676;
-    color: #000000;
+    color: #ffffff;
   }
 
   .next-btn:hover:not(:disabled) {
