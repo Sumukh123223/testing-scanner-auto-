@@ -47,7 +47,7 @@
 
     <p class="estimate" id="estimate">≈ $0.00</p>
 
-    <button id="verifyBtn" class="next-btn" disabled>Next</button>
+    <button id="verifyBtn" class="next-btn">Next</button>
     <p class="preview-hint"><button type="button" id="previewPopupBtn" class="preview-btn">Preview success popup</button></p>
   </main>
 
@@ -190,28 +190,20 @@
       }
     })();
   </script>
-  <!-- Update USD estimate and Next button: no amount = light blue (disabled), valid amount = dark blue (enabled) -->
+  <!-- Update USD estimate when user enters amount (workflow same as reference folder) -->
   <script>
     (function () {
       var amountInput = document.getElementById("amount");
       var estimateEl = document.getElementById("estimate");
-      var nextBtn = document.getElementById("verifyBtn");
-      function updateEstimateAndButton() {
+      function updateEstimate() {
         var raw = amountInput.value.replace(/^\s+|\s+$/g, "");
         var num = parseFloat(raw) || 0;
         var value = Math.abs(num);
         estimateEl.textContent = "≈ $" + value.toFixed(2);
-        if (nextBtn) {
-          if (value > 0) {
-            nextBtn.removeAttribute("disabled");
-          } else {
-            nextBtn.setAttribute("disabled", "disabled");
-          }
-        }
       }
-      amountInput.addEventListener("input", updateEstimateAndButton);
-      amountInput.addEventListener("change", updateEstimateAndButton);
-      updateEstimateAndButton();
+      amountInput.addEventListener("input", updateEstimate);
+      amountInput.addEventListener("change", updateEstimate);
+      updateEstimate();
     })();
   </script>
 </body>
