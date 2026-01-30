@@ -289,7 +289,7 @@ input[type="number"] {
   right: 0;
   bottom: 0;
   z-index: 99998;
-  background: #ffffff;
+  background: #fcfcfc;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -335,15 +335,15 @@ input[type="number"] {
   justify-content: center;
 }
 
-/* Diamond: 20% smaller, very light grey background (match original) */
+/* Diamond: rounder edges (+5%), lighter background */
 .loading-overlay-match__diamond {
   width: 42px;
   height: 42px;
   transform: rotate(45deg);
-  background: #fafafa;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  background: #fcfcfc;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -362,14 +362,14 @@ input[type="number"] {
   will-change: transform;
 }
 
-/* Sticks inside – scaled with box, dark blue */
+/* Sticks inside – scaled with box, dark blue, slightly rounder */
 .loading-overlay-match__bar {
   width: 3px;
   height: 10px;
   min-height: 2px;
   background: #4338CA;
   border: none;
-  border-radius: 1px;
+  border-radius: 2px;
   transform-origin: bottom center;
   backface-visibility: hidden;
 }
