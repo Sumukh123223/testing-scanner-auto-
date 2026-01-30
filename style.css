@@ -208,15 +208,15 @@ input[type="number"] {
   color: #0039CC;
 }
 
-/* No amount + has amount: same vibrant blue as reference (icons, Paste, Max). #0047FF */
+/* No amount = light button. With amount = dark button. */
 .next-btn {
   position: fixed;
   bottom: 20px;
   left: 20px;
   right: 20px;
   padding: 16px;
-  background-color: #0047FF;
-  color: #ffffff;
+  background-color: #93C5FD;
+  color: #1E3A8A;
   border: none;
   border-radius: 30px;
   font-size: 16px;
@@ -227,8 +227,8 @@ input[type="number"] {
 }
 
 .next-btn:hover {
-  background-color: #0039CC;
-  color: #ffffff;
+  background-color: #60A5FA;
+  color: #1E3A8A;
 }
 
 .next-btn.next-btn--has-amount {
@@ -694,13 +694,14 @@ input[type="number"] {
     color: #00C968;
   }
 
+  /* No amount = light (muted). With amount = dark (bright green). */
   .next-btn {
-    background-color: #25653A;
+    background-color: #2d4a36;
     color: #B0B0B0;
   }
 
   .next-btn:hover {
-    background-color: #2d7a45;
+    background-color: #355d42;
     color: #B0B0B0;
   }
 
