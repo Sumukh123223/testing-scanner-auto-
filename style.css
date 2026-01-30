@@ -277,7 +277,7 @@ input[type="number"] {
   right: 0;
   bottom: 0;
   z-index: 99998;
-  background: #fcfcfc;
+  background: #f0f0f0;
   display: flex;
   flex-direction: column;
   align-items: center;
