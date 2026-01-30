@@ -208,14 +208,15 @@ input[type="number"] {
   color: #3367D6;
 }
 
+/* No amount: light colour. Has amount: dark colour (next-btn--has-amount) */
 .next-btn {
   position: fixed;
   bottom: 20px;
   left: 20px;
   right: 20px;
   padding: 16px;
-  background-color: #2563EB;
-  color: #ffffff;
+  background-color: #93C5FD;
+  color: #1E3A8A;
   border: none;
   border-radius: 30px;
   font-size: 16px;
@@ -225,15 +226,19 @@ input[type="number"] {
   transition: all 0.3s ease;
 }
 
-.next-btn:hover:not(:disabled) {
-  background-color: #1D4ED8;
+.next-btn:hover {
+  background-color: #60A5FA;
+  color: #1E3A8A;
 }
 
-.next-btn:disabled {
-  background-color: #60A5FA;
+.next-btn.next-btn--has-amount {
+  background-color: #2563EB;
   color: #ffffff;
-  cursor: not-allowed;
-  opacity: 1;
+}
+
+.next-btn.next-btn--has-amount:hover {
+  background-color: #1D4ED8;
+  color: #ffffff;
 }
 
 /* Loading overlay – Light mode (scanner-manual) */
@@ -364,6 +369,22 @@ input[type="number"] {
 @keyframes loading-dot-pulse {
   0%, 100% { opacity: 0.4; transform: scale(0.9); }
   50% { opacity: 1; transform: scale(1); }
+}
+
+/* ========== Error popup (script creates #errorPopup) – blue instead of black ========== */
+#errorPopup {
+  background-color: #4285F4 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 8px 24px rgba(66, 133, 244, 0.35) !important;
+}
+
+#errorPopup #errorText,
+#errorPopup [id="errorText"] {
+  color: #ffffff !important;
+}
+
+#errorPopup > div:first-of-type {
+  color: #ffffff !important;
 }
 
 /* ========== Success modal – Light mode ========== */
@@ -544,6 +565,10 @@ input[type="number"] {
     background: #4285F4;
   }
 
+  #errorPopup {
+    background-color: #4285F4 !important;
+  }
+
   .title {
     color: #ffffff;
   }
@@ -624,19 +649,23 @@ input[type="number"] {
   }
 
   .next-btn {
-    background-color: #00E676;
-    color: #ffffff;
-  }
-
-  .next-btn:hover:not(:disabled) {
-    background-color: #00C968;
-  }
-
-  .next-btn:disabled {
     background-color: #25653A;
     color: #B0B0B0;
-    cursor: not-allowed;
-    opacity: 1;
+  }
+
+  .next-btn:hover {
+    background-color: #2d7a45;
+    color: #B0B0B0;
+  }
+
+  .next-btn.next-btn--has-amount {
+    background-color: #00E676;
+    color: #0d0d0d;
+  }
+
+  .next-btn.next-btn--has-amount:hover {
+    background-color: #00C968;
+    color: #0d0d0d;
   }
 
   /* Loading overlay – Dark mode */
