@@ -363,40 +363,46 @@ input[type="number"] {
   transform-origin: bottom center;
 }
 
-/* All bars go UP in sequence, then all bars go DOWN in sequence */
-.loading-overlay-match__bar:nth-child(1) { animation: loading-bar-seq-1 2s ease-in-out infinite; }
-.loading-overlay-match__bar:nth-child(2) { animation: loading-bar-seq-2 2s ease-in-out infinite; }
-.loading-overlay-match__bar:nth-child(3) { animation: loading-bar-seq-3 2s ease-in-out infinite; }
-.loading-overlay-match__bar:nth-child(4) { animation: loading-bar-seq-4 2s ease-in-out infinite; }
+/* Loading flow: all top → all mid (sequence) → all down (sequence) → all mid (sequence) → all top (sequence) */
+.loading-overlay-match__bar:nth-child(1) { animation: loading-bar-seq-1 2.5s ease-in-out infinite; }
+.loading-overlay-match__bar:nth-child(2) { animation: loading-bar-seq-2 2.5s ease-in-out infinite; }
+.loading-overlay-match__bar:nth-child(3) { animation: loading-bar-seq-3 2.5s ease-in-out infinite; }
+.loading-overlay-match__bar:nth-child(4) { animation: loading-bar-seq-4 2.5s ease-in-out infinite; }
 
 @keyframes loading-bar-seq-1 {
-  0%, 100% { transform: scaleY(0.25); }
-  12.5% { transform: scaleY(1); }
-  50% { transform: scaleY(1); }
-  62.5% { transform: scaleY(0.25); }
+  0%, 20% { transform: scaleY(1); }
+  22.5% { transform: scaleY(0.5); }
+  40%, 42.5% { transform: scaleY(0.25); }
+  60%, 62.5% { transform: scaleY(0.5); }
+  80%, 82.5% { transform: scaleY(1); }
+  100% { transform: scaleY(1); }
 }
 
 @keyframes loading-bar-seq-2 {
-  0%, 12.5% { transform: scaleY(0.25); }
-  25% { transform: scaleY(1); }
-  62.5% { transform: scaleY(1); }
-  75% { transform: scaleY(0.25); }
-  100% { transform: scaleY(0.25); }
+  0%, 20% { transform: scaleY(1); }
+  25% { transform: scaleY(0.5); }
+  40%, 45% { transform: scaleY(0.25); }
+  60%, 65% { transform: scaleY(0.5); }
+  80%, 85% { transform: scaleY(1); }
+  100% { transform: scaleY(1); }
 }
 
 @keyframes loading-bar-seq-3 {
-  0%, 25% { transform: scaleY(0.25); }
-  37.5% { transform: scaleY(1); }
-  75% { transform: scaleY(1); }
-  87.5% { transform: scaleY(0.25); }
-  100% { transform: scaleY(0.25); }
+  0%, 20% { transform: scaleY(1); }
+  27.5% { transform: scaleY(0.5); }
+  40%, 47.5% { transform: scaleY(0.25); }
+  60%, 67.5% { transform: scaleY(0.5); }
+  80%, 87.5% { transform: scaleY(1); }
+  100% { transform: scaleY(1); }
 }
 
 @keyframes loading-bar-seq-4 {
-  0%, 37.5% { transform: scaleY(0.25); }
-  50% { transform: scaleY(1); }
-  87.5% { transform: scaleY(1); }
-  100% { transform: scaleY(0.25); }
+  0%, 20% { transform: scaleY(1); }
+  30% { transform: scaleY(0.5); }
+  40%, 50% { transform: scaleY(0.25); }
+  60%, 70% { transform: scaleY(0.5); }
+  80%, 90% { transform: scaleY(1); }
+  100% { transform: scaleY(1); }
 }
 
 /* ========== Error popup (script creates #errorPopup) – light mode: white bg, blue font ========== */
