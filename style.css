@@ -302,27 +302,27 @@ input[type="number"] {
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 16px 48px;
+  padding: 12px 40px;
   box-sizing: border-box;
 }
 
 .loading-overlay-match__close {
   position: absolute;
-  left: 12px;
+  left: 10px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1;
   color: #333;
   cursor: pointer;
-  padding: 8px;
+  padding: 6px;
 }
 
 .loading-overlay-match__title {
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: #000;
 }
@@ -335,11 +335,11 @@ input[type="number"] {
 }
 
 .loading-overlay-match__diamond {
-  width: 56px;
-  height: 56px;
+  width: 44px;
+  height: 44px;
   transform: rotate(45deg);
   background: #e0e0e0;
-  border-radius: 10px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -350,16 +350,16 @@ input[type="number"] {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 5px;
-  height: 20px;
+  gap: 4px;
+  height: 16px;
 }
 
 .loading-overlay-match__bar {
-  width: 5px;
-  height: 14px;
-  min-height: 4px;
+  width: 4px;
+  height: 10px;
+  min-height: 3px;
   background: #00E676;
-  border-radius: 2px;
+  border-radius: 1px;
   transform-origin: bottom center;
 }
 
