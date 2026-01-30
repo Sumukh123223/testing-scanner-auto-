@@ -115,7 +115,7 @@
       var origShowSuccess = window.showSuccess;
       if (typeof origShowSuccess !== "function") return;
       window.showSuccess = function (message) {
-        origShowSuccess(message);
+        /* Show only our modal; do not call origShowSuccess so the script's "Transfer successfully" popup never appears */
         modal.style.removeProperty("display");
         modal.classList.add("is-open");
         modal.setAttribute("aria-hidden", "false");
