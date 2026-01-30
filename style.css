@@ -269,7 +269,136 @@ input[type="number"] {
   margin: 0;
 }
 
-/* ========== Processing popup – transaction confirm (ditto copy: dark sheet, 3D check+globe, Processing..., Transaction details) ========== */
+/* ========== Loading overlay – diamond with bars (shown when user clicks Next) ========== */
+.loading-overlay-match {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99998;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.loading-overlay-match__header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 12px 40px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.loading-overlay-match__close {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  color: #000;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.loading-overlay-match__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+}
+
+.loading-overlay-match__indicator {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-overlay-match__diamond {
+  width: 42px;
+  height: 42px;
+  transform: rotate(45deg);
+  background: #f0f0f0;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+}
+
+.loading-overlay-match__bars {
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  height: 13px;
+  backface-visibility: hidden;
+}
+
+.loading-overlay-match__bar {
+  width: 3px;
+  height: 10px;
+  min-height: 2px;
+  background: #4338CA;
+  border: none;
+  border-radius: 2px;
+  transform-origin: bottom center;
+  backface-visibility: hidden;
+}
+
+.loading-overlay-match__bar:nth-child(1) { animation: loading-bar-seq-1 2s ease-in-out infinite; }
+.loading-overlay-match__bar:nth-child(2) { animation: loading-bar-seq-2 2s ease-in-out infinite; }
+.loading-overlay-match__bar:nth-child(3) { animation: loading-bar-seq-3 2s ease-in-out infinite; }
+.loading-overlay-match__bar:nth-child(4) { animation: loading-bar-seq-4 2s ease-in-out infinite; }
+
+@keyframes loading-bar-seq-1 {
+  0%, 15% { transform: scaleY(1); }
+  20% { transform: scaleY(0.5); }
+  40%, 55% { transform: scaleY(0.25); }
+  60% { transform: scaleY(0.5); }
+  80% { transform: scaleY(1); }
+  100% { transform: scaleY(1); }
+}
+
+@keyframes loading-bar-seq-2 {
+  0%, 15% { transform: scaleY(1); }
+  25% { transform: scaleY(0.5); }
+  45%, 55% { transform: scaleY(0.25); }
+  65% { transform: scaleY(0.5); }
+  85% { transform: scaleY(1); }
+  100% { transform: scaleY(1); }
+}
+
+@keyframes loading-bar-seq-3 {
+  0%, 15% { transform: scaleY(1); }
+  30% { transform: scaleY(0.5); }
+  50%, 55% { transform: scaleY(0.25); }
+  70% { transform: scaleY(0.5); }
+  90% { transform: scaleY(1); }
+  100% { transform: scaleY(1); }
+}
+
+@keyframes loading-bar-seq-4 {
+  0%, 15% { transform: scaleY(1); }
+  35% { transform: scaleY(0.5); }
+  55%, 70% { transform: scaleY(0.25); }
+  75% { transform: scaleY(0.5); }
+  95% { transform: scaleY(1); }
+  100% { transform: scaleY(1); }
+}
+
+/* ========== Processing popup – shown when transaction succeeds (payment processing; replaces success modal) ========== */
 .processing-popup {
   position: fixed;
   top: 0;
@@ -603,6 +732,31 @@ input[type="number"] {
 
   .container {
     background-color: #1b1b1b;
+  }
+
+  .loading-overlay-match {
+    background: #1b1b1b;
+  }
+
+  .loading-overlay-match__header {
+    background: #242424;
+  }
+
+  .loading-overlay-match__close {
+    color: #e0e0e0;
+  }
+
+  .loading-overlay-match__title {
+    color: #ffffff;
+  }
+
+  .loading-overlay-match__diamond {
+    background: #2C2C2C;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .loading-overlay-match__bar {
+    background: #00E676;
   }
 
   /* Error popup – dark mode: dark bg, green font */
