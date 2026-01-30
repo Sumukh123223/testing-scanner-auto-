@@ -335,17 +335,19 @@ input[type="number"] {
   justify-content: center;
 }
 
-/* Diamond: very subtle light grey, almost transparent (match original) */
+/* Diamond: sharp edges, no blur – same look in light/dark (colour overridden in dark) */
 .loading-overlay-match__diamond {
   width: 56px;
   height: 56px;
   transform: rotate(45deg);
-  background: #f0f0f0;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  background: #e8e8e8;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 .loading-overlay-match__bars {
@@ -355,16 +357,19 @@ input[type="number"] {
   justify-content: center;
   gap: 5px;
   height: 18px;
+  backface-visibility: hidden;
 }
 
-/* Four blue square-like dots (original: dark blue, horizontal, animate height) */
+/* Bars: same colour in both modes, sharp (no blur, square corners) */
 .loading-overlay-match__bar {
   width: 5px;
   height: 10px;
   min-height: 2px;
   background: #2563EB;
-  border-radius: 2px;
+  border: none;
+  border-radius: 0;
   transform-origin: bottom center;
+  backface-visibility: hidden;
 }
 
 /* Original sequence (exact match): all top → all mid (seq) → all down (seq) → all mid (seq) → all top (seq). 2s = 24 frames @ 12fps. */
@@ -601,10 +606,12 @@ input[type="number"] {
 
   .loading-overlay-match__diamond {
     background: #2C2C2C;
+    border-color: #333;
   }
 
+  /* Same bar colour as light mode so both loaders look the same */
   .loading-overlay-match__bar {
-    background: #00E676;
+    background: #2563EB;
   }
 
   /* Error popup – dark mode: dark bg, green font */
