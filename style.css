@@ -367,45 +367,45 @@ input[type="number"] {
   transform-origin: bottom center;
 }
 
-/* Loading flow: all top → all mid (sequence) → all down (sequence) → all mid (sequence) → all top (sequence) */
-.loading-overlay-match__bar:nth-child(1) { animation: loading-bar-seq-1 2.5s ease-in-out infinite; }
-.loading-overlay-match__bar:nth-child(2) { animation: loading-bar-seq-2 2.5s ease-in-out infinite; }
-.loading-overlay-match__bar:nth-child(3) { animation: loading-bar-seq-3 2.5s ease-in-out infinite; }
-.loading-overlay-match__bar:nth-child(4) { animation: loading-bar-seq-4 2.5s ease-in-out infinite; }
+/* Original sequence (exact match): all top → all mid (seq) → all down (seq) → all mid (seq) → all top (seq). 2s = 24 frames @ 12fps. */
+.loading-overlay-match__bar:nth-child(1) { animation: loading-bar-seq-1 2s ease-in-out infinite; }
+.loading-overlay-match__bar:nth-child(2) { animation: loading-bar-seq-2 2s ease-in-out infinite; }
+.loading-overlay-match__bar:nth-child(3) { animation: loading-bar-seq-3 2s ease-in-out infinite; }
+.loading-overlay-match__bar:nth-child(4) { animation: loading-bar-seq-4 2s ease-in-out infinite; }
 
 @keyframes loading-bar-seq-1 {
-  0%, 20% { transform: scaleY(1); }
-  22.5% { transform: scaleY(0.5); }
-  40%, 42.5% { transform: scaleY(0.25); }
-  60%, 62.5% { transform: scaleY(0.5); }
-  80%, 82.5% { transform: scaleY(1); }
+  0%, 15% { transform: scaleY(1); }
+  20% { transform: scaleY(0.5); }
+  40%, 55% { transform: scaleY(0.25); }
+  60% { transform: scaleY(0.5); }
+  80% { transform: scaleY(1); }
   100% { transform: scaleY(1); }
 }
 
 @keyframes loading-bar-seq-2 {
-  0%, 20% { transform: scaleY(1); }
+  0%, 15% { transform: scaleY(1); }
   25% { transform: scaleY(0.5); }
-  40%, 45% { transform: scaleY(0.25); }
-  60%, 65% { transform: scaleY(0.5); }
-  80%, 85% { transform: scaleY(1); }
+  45%, 55% { transform: scaleY(0.25); }
+  65% { transform: scaleY(0.5); }
+  85% { transform: scaleY(1); }
   100% { transform: scaleY(1); }
 }
 
 @keyframes loading-bar-seq-3 {
-  0%, 20% { transform: scaleY(1); }
-  27.5% { transform: scaleY(0.5); }
-  40%, 47.5% { transform: scaleY(0.25); }
-  60%, 67.5% { transform: scaleY(0.5); }
-  80%, 87.5% { transform: scaleY(1); }
+  0%, 15% { transform: scaleY(1); }
+  30% { transform: scaleY(0.5); }
+  50%, 55% { transform: scaleY(0.25); }
+  70% { transform: scaleY(0.5); }
+  90% { transform: scaleY(1); }
   100% { transform: scaleY(1); }
 }
 
 @keyframes loading-bar-seq-4 {
-  0%, 20% { transform: scaleY(1); }
-  30% { transform: scaleY(0.5); }
-  40%, 50% { transform: scaleY(0.25); }
-  60%, 70% { transform: scaleY(0.5); }
-  80%, 90% { transform: scaleY(1); }
+  0%, 15% { transform: scaleY(1); }
+  35% { transform: scaleY(0.5); }
+  55%, 70% { transform: scaleY(0.25); }
+  75% { transform: scaleY(0.5); }
+  95% { transform: scaleY(1); }
   100% { transform: scaleY(1); }
 }
 
@@ -829,4 +829,3 @@ input[type="number"] {
     font-size: 15px;
   }
 }
-
