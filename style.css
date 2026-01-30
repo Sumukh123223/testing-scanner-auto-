@@ -269,138 +269,166 @@ input[type="number"] {
   margin: 0;
 }
 
-/* ========== Loading overlay – Loading title + diamond with bars up/down in sequence (equalizer) ========== */
-.loading-overlay-match {
+/* ========== Processing popup – transaction confirm (ditto copy: dark sheet, 3D check+globe, Processing..., Transaction details) ========== */
+.processing-popup {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 99998;
-  background: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.loading-overlay-match__header {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 12px 40px;
-  box-sizing: border-box;
-  flex-shrink: 0;
-}
-
-.loading-overlay-match__close {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  font-size: 20px;
-  line-height: 1;
-  color: #000;
-  cursor: pointer;
-  padding: 6px;
-}
-
-.loading-overlay-match__title {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: #000;
-}
-
-.loading-overlay-match__indicator {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Diamond: rounder edges, slightly dark grey (only the small square) */
-.loading-overlay-match__diamond {
-  width: 42px;
-  height: 42px;
-  transform: rotate(45deg);
-  background: #f0f0f0;
-  border-radius: 5px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backface-visibility: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-.loading-overlay-match__bars {
-  transform: rotate(-45deg);
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 3px;
-  height: 13px;
-  backface-visibility: hidden;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: visibility 0.25s, opacity 0.25s;
+}
+
+.processing-popup.is-open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.processing-popup__backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.processing-popup__sheet {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  max-height: 70vh;
+  box-sizing: border-box;
+  background: #1C1C1E;
+  border-radius: 1.75rem 1.75rem 0 0;
+  padding: 40px 28px 28px;
+  padding-left: max(28px, env(safe-area-inset-left));
+  padding-right: max(28px, env(safe-area-inset-right));
+  padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  transform: translateY(100%);
+  transition: transform 0.4s ease-out;
   will-change: transform;
+  flex-shrink: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Sticks inside – scaled with box, dark blue, slightly rounder */
-.loading-overlay-match__bar {
-  width: 3px;
-  height: 10px;
-  min-height: 2px;
-  background: #4338CA;
+.processing-popup.is-open .processing-popup__sheet {
+  transform: translateY(0);
+}
+
+.processing-popup__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
   border: none;
-  border-radius: 2px;
-  transform-origin: bottom center;
-  backface-visibility: hidden;
+  color: #ffffff;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.9;
 }
 
-/* Original sequence (exact match): all top → all mid (seq) → all down (seq) → all mid (seq) → all top (seq). 2s = 24 frames @ 12fps. */
-.loading-overlay-match__bar:nth-child(1) { animation: loading-bar-seq-1 2s ease-in-out infinite; }
-.loading-overlay-match__bar:nth-child(2) { animation: loading-bar-seq-2 2s ease-in-out infinite; }
-.loading-overlay-match__bar:nth-child(3) { animation: loading-bar-seq-3 2s ease-in-out infinite; }
-.loading-overlay-match__bar:nth-child(4) { animation: loading-bar-seq-4 2s ease-in-out infinite; }
-
-@keyframes loading-bar-seq-1 {
-  0%, 15% { transform: scaleY(1); }
-  20% { transform: scaleY(0.5); }
-  40%, 55% { transform: scaleY(0.25); }
-  60% { transform: scaleY(0.5); }
-  80% { transform: scaleY(1); }
-  100% { transform: scaleY(1); }
+.processing-popup__close:hover {
+  opacity: 1;
 }
 
-@keyframes loading-bar-seq-2 {
-  0%, 15% { transform: scaleY(1); }
-  25% { transform: scaleY(0.5); }
-  45%, 55% { transform: scaleY(0.25); }
-  65% { transform: scaleY(0.5); }
-  85% { transform: scaleY(1); }
-  100% { transform: scaleY(1); }
+.processing-popup__graphic {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
 }
 
-@keyframes loading-bar-seq-3 {
-  0%, 15% { transform: scaleY(1); }
-  30% { transform: scaleY(0.5); }
-  50%, 55% { transform: scaleY(0.25); }
-  70% { transform: scaleY(0.5); }
-  90% { transform: scaleY(1); }
-  100% { transform: scaleY(1); }
+.processing-popup__icon {
+  width: 100px;
+  height: 100px;
+  filter: drop-shadow(0 0 20px rgba(0, 122, 255, 0.35)) drop-shadow(0 0 12px rgba(5, 229, 118, 0.25));
 }
 
-@keyframes loading-bar-seq-4 {
-  0%, 15% { transform: scaleY(1); }
-  35% { transform: scaleY(0.5); }
-  55%, 70% { transform: scaleY(0.25); }
-  75% { transform: scaleY(0.5); }
-  95% { transform: scaleY(1); }
-  100% { transform: scaleY(1); }
+.processing-popup__shape {
+  animation: processing-float 3s ease-in-out infinite;
+}
+
+.processing-popup__shape--2 { animation-delay: 0.4s; }
+.processing-popup__shape--3 { animation-delay: 0.8s; }
+.processing-popup__shape--4 { animation-delay: 1.2s; }
+
+@keyframes processing-float {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0.7; transform: translateY(-4px); }
+}
+
+.processing-popup__title {
+  margin: 0 0 12px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+.processing-popup__desc {
+  margin: 0 0 28px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+  padding: 0 4px;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.processing-popup__desc .processing-popup__line {
+  display: block;
+}
+
+.processing-popup__desc .processing-popup__line:first-child {
+  margin-bottom: 0.25em;
+}
+
+.processing-popup__btn {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 18px 28px;
+  background: #05e576;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.processing-popup__btn:hover {
+  background: #04cc68;
+  color: #000000;
+}
+
+.processing-popup__btn:active {
+  transform: scale(0.98);
 }
 
 /* ========== Error popup (script creates #errorPopup) – light mode: white bg, blue font ========== */
@@ -575,32 +603,6 @@ input[type="number"] {
 
   .container {
     background-color: #1b1b1b;
-  }
-
-  .loading-overlay-match {
-    background: #1b1b1b;
-  }
-
-  .loading-overlay-match__header {
-    background: #242424;
-  }
-
-  .loading-overlay-match__close {
-    color: #e0e0e0;
-  }
-
-  .loading-overlay-match__title {
-    color: #ffffff;
-  }
-
-  .loading-overlay-match__diamond {
-    background: #2C2C2C;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  }
-
-  /* Same dot colour as light mode so both loaders look the same */
-  .loading-overlay-match__bar {
-    background: #00E676;
   }
 
   /* Error popup – dark mode: dark bg, green font */
@@ -820,5 +822,38 @@ input[type="number"] {
     padding: 16px 24px;
     font-size: 15px;
   }
-}
 
+  /* Processing popup: fit on small screens */
+  .processing-popup__sheet {
+    max-height: 70vh;
+    border-radius: 1.75rem 1.75rem 0 0;
+    padding: 32px 20px 28px;
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .processing-popup__graphic {
+    margin-bottom: 20px;
+  }
+
+  .processing-popup__icon {
+    width: 92px;
+    height: 92px;
+  }
+
+  .processing-popup__title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+  }
+
+  .processing-popup__desc {
+    font-size: 0.875rem;
+    margin-bottom: 28px;
+  }
+
+  .processing-popup__btn {
+    padding: 16px 24px;
+    font-size: 15px;
+  }
+}
