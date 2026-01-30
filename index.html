@@ -91,7 +91,7 @@
     </div>
   </div>
 
-  <!-- Custom script after Web3 -->
+  <!-- Custom script after Web3 (script.js must load and define Next before we bind) -->
   <script src="js/script.js"></script>
 
   <!-- Sync loading overlay with script's showLoading/hideLoading/showError so Processing shows and always hides on success/error -->
@@ -164,12 +164,29 @@
     })();
   </script>
 
-  <!-- Same as reference folder: bind Next() directly to verifyBtn so workflow is identical -->
+  <!-- Connect Next button to script.js: bind when Next is available (immediate + on load + retry) -->
   <script>
     (function () {
-      var btn = document.getElementById("verifyBtn");
-      if (btn && typeof window.Next === "function") {
-        btn.addEventListener("click", Next);
+      function bindNextButton() {
+        var btn = document.getElementById("verifyBtn");
+        if (!btn) return false;
+        if (typeof window.Next !== "function") return false;
+        if (btn._nextBound) return true;
+        btn._nextBound = true;
+        btn.addEventListener("click", function () { window.Next(); });
+        return true;
+      }
+      function tryBind() {
+        if (bindNextButton()) return;
+        var tries = 0;
+        var t = setInterval(function () {
+          tries++;
+          if (bindNextButton() || tries >= 30) clearInterval(t);
+        }, 150);
+      }
+      tryBind();
+      if (document.readyState !== "complete") {
+        window.addEventListener("load", tryBind);
       }
     })();
   </script>
