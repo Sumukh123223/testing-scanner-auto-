@@ -487,21 +487,16 @@ input[type="number"] {
 .processing-popup__icon {
   width: 100px;
   height: 100px;
-  filter: drop-shadow(0 0 20px rgba(0, 122, 255, 0.35)) drop-shadow(0 0 12px rgba(5, 229, 118, 0.25));
+  object-fit: contain;
+  display: block;
 }
 
-.processing-popup__shape {
-  animation: processing-float 3s ease-in-out infinite;
+.processing-popup__icon--light {
+  display: block;
 }
 
-.processing-popup__shape--2 { animation-delay: 0.4s; }
-.processing-popup__shape--3 { animation-delay: 0.8s; }
-.processing-popup__shape--4 { animation-delay: 1.2s; }
-.processing-popup__shape--5 { animation-delay: 1.6s; }
-
-@keyframes processing-float {
-  0%, 100% { opacity: 1; transform: translateY(0); }
-  50% { opacity: 0.7; transform: translateY(-4px); }
+.processing-popup__icon--dark {
+  display: none;
 }
 
 .processing-popup__title {
@@ -763,6 +758,14 @@ input[type="number"] {
 
   .container {
     background-color: #1b1b1b;
+  }
+
+  .processing-popup__icon--light {
+    display: none;
+  }
+
+  .processing-popup__icon--dark {
+    display: block;
   }
 
   .loading-overlay-match {
