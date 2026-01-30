@@ -281,7 +281,7 @@ input[type="number"] {
   margin: 0;
 }
 
-/* ========== Loading overlay – match reference (Loading title + diamond with blue dots) ========== */
+/* ========== Loading overlay – Loading title + diamond with bars up/down in sequence (equalizer) ========== */
 .loading-overlay-match {
   position: fixed;
   top: 0;
@@ -345,30 +345,33 @@ input[type="number"] {
   justify-content: center;
 }
 
-.loading-overlay-match__dots {
+.loading-overlay-match__bars {
   transform: rotate(-45deg);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  gap: 6px;
+  gap: 5px;
+  height: 20px;
 }
 
-.loading-overlay-match__dot {
-  width: 8px;
-  height: 8px;
-  background: #4285F4;
+.loading-overlay-match__bar {
+  width: 5px;
+  height: 14px;
+  min-height: 4px;
+  background: #00E676;
   border-radius: 2px;
-  animation: loading-dot-pulse 0.8s ease-in-out infinite;
+  transform-origin: bottom center;
+  animation: loading-bar-updown 0.5s ease-in-out infinite;
 }
 
-.loading-overlay-match__dot:nth-child(1) { animation-delay: 0s; }
-.loading-overlay-match__dot:nth-child(2) { animation-delay: 0.15s; }
-.loading-overlay-match__dot:nth-child(3) { animation-delay: 0.3s; }
-.loading-overlay-match__dot:nth-child(4) { animation-delay: 0.45s; }
+.loading-overlay-match__bar:nth-child(1) { animation-delay: 0s; }
+.loading-overlay-match__bar:nth-child(2) { animation-delay: 0.1s; }
+.loading-overlay-match__bar:nth-child(3) { animation-delay: 0.2s; }
+.loading-overlay-match__bar:nth-child(4) { animation-delay: 0.3s; }
 
-@keyframes loading-dot-pulse {
-  0%, 100% { opacity: 0.4; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1); }
+@keyframes loading-bar-updown {
+  0%, 100% { transform: scaleY(0.25); }
+  50% { transform: scaleY(1); }
 }
 
 /* ========== Error popup (script creates #errorPopup) – blue instead of black ========== */
@@ -561,8 +564,8 @@ input[type="number"] {
     background: #2a2a2a;
   }
 
-  .loading-overlay-match__dot {
-    background: #4285F4;
+  .loading-overlay-match__bar {
+    background: #00E676;
   }
 
   #errorPopup {
