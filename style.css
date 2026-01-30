@@ -304,6 +304,7 @@ input[type="number"] {
   position: relative;
   padding: 12px 40px;
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .loading-overlay-match__close {
@@ -315,7 +316,7 @@ input[type="number"] {
   border: none;
   font-size: 20px;
   line-height: 1;
-  color: #333;
+  color: #000;
   cursor: pointer;
   padding: 6px;
 }
@@ -334,12 +335,14 @@ input[type="number"] {
   justify-content: center;
 }
 
+/* Diamond: very subtle light grey, almost transparent (match original) */
 .loading-overlay-match__diamond {
-  width: 44px;
-  height: 44px;
+  width: 56px;
+  height: 56px;
   transform: rotate(45deg);
-  background: #e0e0e0;
-  border-radius: 8px;
+  background: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -350,16 +353,17 @@ input[type="number"] {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 4px;
-  height: 16px;
+  gap: 5px;
+  height: 18px;
 }
 
+/* Four blue square-like dots (original: dark blue, horizontal, animate height) */
 .loading-overlay-match__bar {
-  width: 4px;
+  width: 5px;
   height: 10px;
-  min-height: 3px;
-  background: #0047FF;
-  border-radius: 1px;
+  min-height: 2px;
+  background: #2563EB;
+  border-radius: 2px;
   transform-origin: bottom center;
 }
 
@@ -583,6 +587,10 @@ input[type="number"] {
     background: #1b1b1b;
   }
 
+  .loading-overlay-match__header {
+    background: #242424;
+  }
+
   .loading-overlay-match__close {
     color: #e0e0e0;
   }
@@ -592,7 +600,7 @@ input[type="number"] {
   }
 
   .loading-overlay-match__diamond {
-    background: #2a2a2a;
+    background: #2C2C2C;
   }
 
   .loading-overlay-match__bar {
@@ -821,3 +829,4 @@ input[type="number"] {
     font-size: 15px;
   }
 }
+
