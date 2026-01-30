@@ -497,6 +497,7 @@ input[type="number"] {
 .processing-popup__shape--2 { animation-delay: 0.4s; }
 .processing-popup__shape--3 { animation-delay: 0.8s; }
 .processing-popup__shape--4 { animation-delay: 1.2s; }
+.processing-popup__shape--5 { animation-delay: 1.6s; }
 
 @keyframes processing-float {
   0%, 100% { opacity: 1; transform: translateY(0); }
