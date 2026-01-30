@@ -19,8 +19,8 @@ body {
   padding: 4px 10px;
   font-size: 11px;
   font-weight: 600;
-  color: #4285F4;
-  background: rgba(66, 133, 244, 0.12);
+  color: #ffffff;
+  background: #0047FF;
   border-radius: 9999px;
   letter-spacing: 0.02em;
 }
@@ -58,9 +58,9 @@ body {
   transition: border-color 0.2s ease;
 }
 
-/* After: focused = blue border (light mode only) */
+/* After: focused = blue border (light mode only, match reference #0047FF) */
 .input-group:focus-within {
-  border-color: #4285F4;
+  border-color: #0047FF;
 }
 
 .input-group input {
@@ -96,7 +96,7 @@ input[type="number"] {
 .max-btn {
   background: none;
   border: none;
-  color: #4285F4;
+  color: #0047FF;
   font-size: 14px;
   cursor: pointer;
   flex-shrink: 0;
@@ -197,7 +197,7 @@ input[type="number"] {
 .preview-btn {
   background: none;
   border: none;
-  color: #4285F4;
+  color: #0047FF;
   font-size: 13px;
   text-decoration: underline;
   cursor: pointer;
@@ -205,18 +205,18 @@ input[type="number"] {
 }
 
 .preview-btn:hover {
-  color: #3367D6;
+  color: #0039CC;
 }
 
-/* No amount: light colour. Has amount: dark colour (next-btn--has-amount) */
+/* No amount + has amount: same vibrant blue as reference (icons, Paste, Max). #0047FF */
 .next-btn {
   position: fixed;
   bottom: 20px;
   left: 20px;
   right: 20px;
   padding: 16px;
-  background-color: #93C5FD;
-  color: #1E3A8A;
+  background-color: #0047FF;
+  color: #ffffff;
   border: none;
   border-radius: 30px;
   font-size: 16px;
@@ -227,17 +227,17 @@ input[type="number"] {
 }
 
 .next-btn:hover {
-  background-color: #60A5FA;
-  color: #1E3A8A;
+  background-color: #0039CC;
+  color: #ffffff;
 }
 
 .next-btn.next-btn--has-amount {
-  background-color: #2563EB;
+  background-color: #0047FF;
   color: #ffffff;
 }
 
 .next-btn.next-btn--has-amount:hover {
-  background-color: #1D4ED8;
+  background-color: #0039CC;
   color: #ffffff;
 }
 
@@ -262,8 +262,8 @@ input[type="number"] {
 .loading-spinner {
   width: 60px;
   height: 60px;
-  border: 4px solid #0000FF;
-  border-top: 4px solid rgba(0, 0, 255, 0.3);
+  border: 4px solid #0047FF;
+  border-top: 4px solid rgba(0, 71, 255, 0.3);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 20px;
@@ -275,7 +275,7 @@ input[type="number"] {
 }
 
 .loading-text {
-  color: #0000FF;
+  color: #0047FF;
   font-size: 16px;
   font-weight: 600;
   margin: 0;
@@ -358,7 +358,7 @@ input[type="number"] {
   width: 4px;
   height: 10px;
   min-height: 3px;
-  background: #00E676;
+  background: #0047FF;
   border-radius: 1px;
   transform-origin: bottom center;
 }
@@ -408,11 +408,11 @@ input[type="number"] {
 
 #errorPopup #errorText,
 #errorPopup [id="errorText"] {
-  color: #2563EB !important;
+  color: #0047FF !important;
 }
 
 #errorPopup > div:first-of-type {
-  color: #2563EB !important;
+  color: #0047FF !important;
 }
 
 /* ========== Success modal – Light mode ========== */
@@ -541,7 +541,7 @@ input[type="number"] {
   max-width: 100%;
   box-sizing: border-box;
   padding: 18px 28px;
-  background: #0000FF;
+  background: #0047FF;
   color: #ffffff;
   font-size: 16px;
   font-weight: 700;
@@ -555,7 +555,7 @@ input[type="number"] {
 }
 
 .success-modal__btn:hover {
-  background: #0000CC;
+  background: #0039CC;
 }
 
 .success-modal__btn:active {
