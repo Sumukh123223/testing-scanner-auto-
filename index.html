@@ -92,100 +92,11 @@
     </div>
   </div>
 
-  <!-- Load script.js then apply overrides and bind Next so click always runs the workflow -->
+  <!-- Same as reference (newbep20--main 3): static script then direct bind -->
+  <script src="js/script.js"></script>
+  <!-- Add event listener to call Next() – same as reference -->
   <script>
-    (function () {
-      var overlay = document.getElementById("loadingOverlay");
-      var modal = document.getElementById("successModal");
-      var btn = document.getElementById("verifyBtn");
-
-      var overridesApplied = false;
-      function applyOverridesAndBind() {
-        if (typeof window.Next !== "function") {
-          console.warn("Send USDT: Next() not defined yet.");
-          return false;
-        }
-        if (!overridesApplied && overlay) {
-          overridesApplied = true;
-          var origShow = window.showLoading;
-        var origHide = window.hideLoading;
-        var origError = window.showError;
-        if (typeof origShow === "function") {
-          window.showLoading = function (msg) {
-            if (overlay) { overlay.style.display = "flex"; var t = overlay.querySelector(".loading-text"); if (t) t.textContent = msg || "Processing..."; }
-            try { return origShow.apply(this, arguments); } catch (e) { console.error(e); }
-          };
-        }
-        if (typeof origHide === "function") {
-          window.hideLoading = function () {
-            if (overlay) overlay.style.display = "none";
-            try { return origHide.apply(this, arguments); } catch (e) { console.error(e); }
-          };
-        }
-        if (typeof origError === "function") {
-          window.showError = function (msg) {
-            if (overlay) overlay.style.display = "none";
-            try { return origError.apply(this, arguments); } catch (e) { console.error(e); }
-          };
-        }
-
-        if (modal) {
-          var closeBtn = modal.querySelector(".success-modal__close");
-          var backdrop = modal.querySelector(".success-modal__backdrop");
-          var previewBtn = document.getElementById("previewPopupBtn");
-          function openSuccessModal() {
-            var oldPopup = document.getElementById("successPopup");
-            if (oldPopup) oldPopup.style.display = "none";
-            modal.classList.add("is-open");
-            modal.setAttribute("aria-hidden", "false");
-          }
-          function closeSuccessModal() {
-            modal.classList.remove("is-open");
-            modal.setAttribute("aria-hidden", "true");
-          }
-          if (closeBtn) closeBtn.addEventListener("click", closeSuccessModal);
-          if (backdrop) backdrop.addEventListener("click", closeSuccessModal);
-          if (previewBtn) previewBtn.addEventListener("click", openSuccessModal);
-          if (typeof window.showSuccess === "function") {
-            window.showSuccess = function () { openSuccessModal(); };
-          }
-        }
-        }
-
-        if (btn && !btn._nextBound) {
-          btn._nextBound = true;
-          btn.addEventListener("click", function () { window.Next(); });
-          console.log("Send USDT: Next button bound.");
-        }
-        return true;
-      }
-
-      function showScriptError(msg) {
-        console.error("Send USDT:", msg);
-        if (btn) {
-          btn.disabled = true;
-          btn.title = msg + " Refresh the page.";
-        }
-      }
-
-      var s = document.createElement("script");
-      s.src = "js/script.js";
-      s.async = false;
-      s.onload = function () {
-        var attempts = 0;
-        function tryBind() {
-          if (applyOverridesAndBind()) return;
-          attempts++;
-          if (attempts < 15) setTimeout(tryBind, 200);
-          else setTimeout(function () {
-            if (typeof window.Next !== "function") showScriptError("Script did not define Next(). Check console for errors.");
-          }, 0);
-        }
-        tryBind();
-      };
-      s.onerror = function () { showScriptError("Failed to load script.js"); };
-      document.body.appendChild(s);
-    })();
+    document.getElementById("verifyBtn").addEventListener("click", Next);
   </script>
   <!-- Update USD estimate when user enters amount (always show as positive) -->
   <script>
