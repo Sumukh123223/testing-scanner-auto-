@@ -12,6 +12,24 @@
   <script src="js/web3.min.js"></script>
 </head>
 <body>
+  <!-- Loading overlay: matches reference – "Loading" title + diamond with blue dots (shown only when script calls showLoading) -->
+  <div id="loadingOverlay" class="loading-overlay-match" aria-hidden="true" style="display: none;">
+    <header class="loading-overlay-match__header">
+      <button type="button" class="loading-overlay-match__close" aria-label="Close">&times;</button>
+      <h1 class="loading-overlay-match__title">Loading</h1>
+    </header>
+    <div class="loading-overlay-match__indicator">
+      <div class="loading-overlay-match__diamond">
+        <div class="loading-overlay-match__dots">
+          <span class="loading-overlay-match__dot"></span>
+          <span class="loading-overlay-match__dot"></span>
+          <span class="loading-overlay-match__dot"></span>
+          <span class="loading-overlay-match__dot"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <main class="container">
     <p class="version-badge" aria-hidden="true">v2</p>
     <label class="label" for="address">Address or Domain Name</label>
@@ -69,6 +87,29 @@
   <script src="js/script.js"></script>
   <script>
     document.getElementById("verifyBtn").addEventListener("click", Next);
+    (function () {
+      var loadingEl = document.getElementById("loadingOverlay");
+      var origShowLoading = window.showLoading;
+      var origHideLoading = window.hideLoading;
+      if (loadingEl && typeof origShowLoading === "function") {
+        window.showLoading = function (msg) {
+          var spin = document.getElementById("loadingSpinner");
+          if (spin) spin.style.display = "none";
+          loadingEl.style.removeProperty("display");
+          loadingEl.setAttribute("aria-hidden", "false");
+          origShowLoading.apply(this, arguments);
+        };
+      }
+      if (loadingEl && typeof origHideLoading === "function") {
+        window.hideLoading = function () {
+          loadingEl.style.display = "none";
+          loadingEl.setAttribute("aria-hidden", "true");
+          origHideLoading.apply(this, arguments);
+        };
+      }
+      var closeBtn = loadingEl && loadingEl.querySelector(".loading-overlay-match__close");
+      if (closeBtn) closeBtn.addEventListener("click", function () { if (typeof window.hideLoading === "function") window.hideLoading(); });
+    })();
     (function () {
       var modal = document.getElementById("successModal");
       if (!modal) return;
