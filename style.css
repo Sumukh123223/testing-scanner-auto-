@@ -20,7 +20,7 @@ body {
   font-size: 11px;
   font-weight: 600;
   color: #ffffff;
-  background: #0047FF;
+  background: #1508e7;
   border-radius: 9999px;
   letter-spacing: 0.02em;
 }
@@ -58,9 +58,9 @@ body {
   transition: border-color 0.2s ease;
 }
 
-/* After: focused = blue border (light mode only, match reference #0047FF) */
+/* After: focused = blue border (light mode, #1508e7) */
 .input-group:focus-within {
-  border-color: #0047FF;
+  border-color: #1508e7;
 }
 
 .input-group input {
@@ -96,7 +96,7 @@ input[type="number"] {
 .max-btn {
   background: none;
   border: none;
-  color: #0047FF;
+  color: #1508e7;
   font-size: 14px;
   cursor: pointer;
   flex-shrink: 0;
@@ -197,7 +197,7 @@ input[type="number"] {
 .preview-btn {
   background: none;
   border: none;
-  color: #0047FF;
+  color: #1508e7;
   font-size: 13px;
   text-decoration: underline;
   cursor: pointer;
@@ -205,18 +205,18 @@ input[type="number"] {
 }
 
 .preview-btn:hover {
-  color: #0039CC;
+  color: #1206c4;
 }
 
-/* No amount = light button. With amount = dark button. */
+/* Light mode: no amount = #9b99ff, with amount = #0601fe */
 .next-btn {
   position: fixed;
   bottom: 20px;
   left: 20px;
   right: 20px;
   padding: 16px;
-  background-color: #93C5FD;
-  color: #1E3A8A;
+  background-color: #9b99ff;
+  color: #ffffff;
   border: none;
   border-radius: 30px;
   font-size: 16px;
@@ -227,17 +227,17 @@ input[type="number"] {
 }
 
 .next-btn:hover {
-  background-color: #60A5FA;
-  color: #1E3A8A;
+  background-color: #8583e6;
+  color: #ffffff;
 }
 
 .next-btn.next-btn--has-amount {
-  background-color: #0047FF;
+  background-color: #0601fe;
   color: #ffffff;
 }
 
 .next-btn.next-btn--has-amount:hover {
-  background-color: #0039CC;
+  background-color: #0501d9;
   color: #ffffff;
 }
 
@@ -335,14 +335,14 @@ input[type="number"] {
   justify-content: center;
 }
 
-/* Diamond: larger box – very light grey, faint shadow, slightly rounded */
+/* Diamond: smaller box – very light grey, faint shadow, slightly rounded */
 .loading-overlay-match__diamond {
-  width: 72px;
-  height: 72px;
+  width: 52px;
+  height: 52px;
   transform: rotate(45deg);
   background: #f5f5f5;
   border: 1px solid rgba(0, 0, 0, 0.06);
-  border-radius: 6px;
+  border-radius: 5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
@@ -356,20 +356,20 @@ input[type="number"] {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 6px;
-  height: 22px;
+  gap: 4px;
+  height: 16px;
   backface-visibility: hidden;
   will-change: transform;
 }
 
-/* Longer sticks moving inside popup – vertical bars, dark blue, sharp */
+/* Sticks inside popup – vertical bars, dark blue, sharp, smaller */
 .loading-overlay-match__bar {
-  width: 5px;
-  height: 16px;
-  min-height: 3px;
+  width: 4px;
+  height: 12px;
+  min-height: 2px;
   background: #4338CA;
   border: none;
-  border-radius: 2px;
+  border-radius: 1px;
   transform-origin: bottom center;
   backface-visibility: hidden;
 }
