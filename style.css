@@ -277,7 +277,7 @@ input[type="number"] {
   right: 0;
   bottom: 0;
   z-index: 99998;
-  background: #f0f0f0;
+  background: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -323,12 +323,12 @@ input[type="number"] {
   justify-content: center;
 }
 
-/* Diamond: rounder edges (+5%), lighter background */
+/* Diamond: rounder edges, slightly dark grey (only the small square) */
 .loading-overlay-match__diamond {
   width: 42px;
   height: 42px;
   transform: rotate(45deg);
-  background: #fcfcfc;
+  background: #f0f0f0;
   border-radius: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
   display: flex;
