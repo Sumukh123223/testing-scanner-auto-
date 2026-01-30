@@ -740,7 +740,7 @@ input[type="number"] {
   }
 
   .loading-overlay-match__header {
-    background: #242424;
+    background: #1b1b1b;
   }
 
   .loading-overlay-match__close {
