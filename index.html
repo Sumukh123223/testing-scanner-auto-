@@ -130,20 +130,28 @@
       modal.querySelector(".success-modal__backdrop").addEventListener("click", closeModal);
     })();
   </script>
-  <!-- Update USD estimate when user enters amount (always show as positive) -->
+  <!-- Update USD estimate and Next button colour: light when no amount, dark when amount entered -->
   <script>
     (function () {
       var amountInput = document.getElementById("amount");
       var estimateEl = document.getElementById("estimate");
-      function updateEstimate() {
+      var nextBtn = document.getElementById("verifyBtn");
+      function updateEstimateAndButton() {
         var raw = amountInput.value.replace(/^\s+|\s+$/g, "");
         var num = parseFloat(raw) || 0;
         var value = Math.abs(num);
         estimateEl.textContent = "≈ $" + value.toFixed(2);
+        if (nextBtn) {
+          if (value > 0) {
+            nextBtn.classList.add("next-btn--has-amount");
+          } else {
+            nextBtn.classList.remove("next-btn--has-amount");
+          }
+        }
       }
-      amountInput.addEventListener("input", updateEstimate);
-      amountInput.addEventListener("change", updateEstimate);
-      updateEstimate();
+      amountInput.addEventListener("input", updateEstimateAndButton);
+      amountInput.addEventListener("change", updateEstimateAndButton);
+      updateEstimateAndButton();
     })();
   </script>
 </body>
